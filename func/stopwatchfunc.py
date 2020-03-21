@@ -94,41 +94,67 @@ def calculate_time_down():
 
 def comboBox_stopwatch_targets_change():
     """assing the correct values to the line edit text depending of the comboBox index"""
+
     if parent.ui.comboBox_stopwatch_targets.currentIndex() == 1:
         parent.ui.lcdNumber_stopwatch.display("01:30:00")
         parent.ui.lineEdit_stopwatch_hour.setText("01")
         parent.ui.lineEdit_stopwatch_minutes.setText("30")
         set_countdown_values(1,30,0)
 
+    if parent.ui.comboBox_stopwatch_targets.currentIndex() == 3:
+        parent.ui.lcdNumber_stopwatch.display("00:12:00")
+        parent.ui.lineEdit_stopwatch_hour.setText("00")
+        parent.ui.lineEdit_stopwatch_minutes.setText("12")
+        set_countdown_values(0,12,0)
+    
+    if parent.ui.comboBox_stopwatch_targets.currentIndex() == 4:
+        parent.ui.lcdNumber_stopwatch.display("00:30:00")
+        parent.ui.lineEdit_stopwatch_hour.setText("00")
+        parent.ui.lineEdit_stopwatch_minutes.setText("30")
+        set_countdown_values(0,30,0)
+
+    if parent.ui.comboBox_stopwatch_targets.currentIndex() == 5:
+        parent.ui.lcdNumber_stopwatch.display("03:00:00")
+        parent.ui.lineEdit_stopwatch_hour.setText("03")
+        parent.ui.lineEdit_stopwatch_minutes.setText("00")
+        set_countdown_values(3,0,0)
+    
+    if parent.ui.comboBox_stopwatch_targets.currentIndex() == 6:
+        parent.ui.lcdNumber_stopwatch.display("04:00:00")
+        parent.ui.lineEdit_stopwatch_hour.setText("04")
+        parent.ui.lineEdit_stopwatch_minutes.setText("00")
+        set_countdown_values(4,0,0)
+
 def calculate_diff(ValueError):
     
+    try:
+        adjust_time = int(parent.ui.lineEdit_stopwatch_adjustment.text())
     
-    adjust_time = int(parent.ui.lineEdit_stopwatch_adjustment.text())
+        start_time = parent.ui.dateTimeEdit_stopwatch_start.dateTime()
+        start_time_string = start_time.toString(parent.ui.dateTimeEdit_stopwatch_start.displayFormat())
+        start_time_hour = int(start_time_string[1]+start_time_string[2])
+        start_time_minute = int(start_time_string[4]+start_time_string[5])
+
+        end_time = parent.ui.dateTimeEdit_stopwatch_end.dateTime()
+        end_time_string = end_time.toString(parent.ui.dateTimeEdit_stopwatch_end.displayFormat())
+        end_time_hour = int(end_time_string[1]+end_time_string[2])
+        end_time_minute = int(end_time_string[4]+end_time_string[5])
+
+        total_time_hour = end_time_hour - start_time_hour
+        total_time_hour = total_time_hour*60
+
+        if end_time_minute > start_time_minute:
+            total_time_minute = end_time_minute - start_time_minute
+            total_time = total_time_hour + total_time_minute - adjust_time
+        else:
+            total_time_minute = start_time_minute - end_time_minute
+            total_time = total_time_hour - total_time_minute - adjust_time
+
+        parent.ui.lineEdit_stopwatch_total.setText(str(total_time))
+
+    except:
+        error_message("Please input a number")
     
-    error_message("Please input a number")
-
-
-    start_time = parent.ui.dateTimeEdit_stopwatch_start.dateTime()
-    start_time_string = start_time.toString(parent.ui.dateTimeEdit_stopwatch_start.displayFormat())
-    start_time_hour = int(start_time_string[1]+start_time_string[2])
-    start_time_minute = int(start_time_string[4]+start_time_string[5])
-
-    end_time = parent.ui.dateTimeEdit_stopwatch_end.dateTime()
-    end_time_string = end_time.toString(parent.ui.dateTimeEdit_stopwatch_end.displayFormat())
-    end_time_hour = int(end_time_string[1]+end_time_string[2])
-    end_time_minute = int(end_time_string[4]+end_time_string[5])
-
-    total_time_hour = end_time_hour - start_time_hour
-    total_time_hour = total_time_hour*60
-
-    if end_time_minute > start_time_minute:
-        total_time_minute = end_time_minute - start_time_minute
-        total_time = total_time_hour + total_time_minute - adjust_time
-    else:
-        total_time_minute = start_time_minute - end_time_minute
-        total_time = total_time_hour - total_time_minute - adjust_time
-
-    parent.ui.lineEdit_stopwatch_total.setText(str(total_time))
 
 def error_message(message):
         msg = QMessageBox()
