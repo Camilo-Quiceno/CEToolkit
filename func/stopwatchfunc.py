@@ -126,7 +126,8 @@ def comboBox_stopwatch_targets_change():
         set_countdown_values(4,0,0)
 
 def calculate_diff(ValueError):
-    
+    """Calculate the dif time"""
+
     try:
         adjust_time = int(parent.ui.lineEdit_stopwatch_adjustment.text())
     
@@ -155,7 +156,6 @@ def calculate_diff(ValueError):
     except:
         error_message("Please input a number")
     
-
 def error_message(message):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
