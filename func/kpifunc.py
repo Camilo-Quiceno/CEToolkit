@@ -110,12 +110,15 @@ def search_button():
 def enviar_datos_excel(query):
     """Send data to excel"""
 
-    date = str(datetime.date.today())
-    date = date.split("-")
-    
-    search_template(date)
-    worksheet = define_sheet(query)
-    write_info(query=query,date=date,worksheet=worksheet)
+    try:
+        date = str(datetime.date.today())
+        date = date.split("-")
+        
+        search_template(date)
+        worksheet = define_sheet(query)
+        write_info(query=query,date=date,worksheet=worksheet)
+    except PermissionError:
+        stopwatchfunc.error_message("Please close the Excel file to save the info")
     
 def search_template(date):
     """look the file o create it"""
