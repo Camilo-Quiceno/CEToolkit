@@ -22,7 +22,6 @@ def calculate_time_up():
         CEToolkit.minuteLCD="00"
     if CEToolkit.hour == 60:
         pass
-    #reset_chronometer() ################################################
     if CEToolkit.second<10:
         CEToolkit.secondLCD = "0" + str(CEToolkit.second)
     else:
@@ -38,31 +37,15 @@ def calculate_time_up():
     CEToolkit.text = "{}:{}:{}".format(CEToolkit.hourLCD,CEToolkit.minuteLCD,CEToolkit.secondLCD)
     parent.ui.lcdNumber_stopwatch.display(CEToolkit.text)
 
-def stop_time():
-    """add the values of the current clock to the line edit text"""
-    parent.ui.lineEdit_stopwatch_seconds.setText(str(CEToolkit.secondLCD))
-    parent.ui.lineEdit_stopwatch_minutes.setText(str(CEToolkit.minuteLCD))
-    parent.ui.lineEdit_stopwatch_hour.setText(str(CEToolkit.hourLCD))
-
-def reset_time():
-    """Reset timer variables, makes lcd displat 00:00:00"""
-    CEToolkit.second=0
-    CEToolkit.minute=0
-    CEToolkit.hour=0
-    parent.ui.lcdNumber_stopwatch.display("00:00:00")
-
-def set_countdown_values(hour,minute,second):
-    """set the values requested by the user in the lcd display"""
-    CEToolkit.second=second
-    CEToolkit.minute=minute
-    CEToolkit.hour=hour
-
 def calculate_time_down():
     """Do the logic of the clock dowmn"""
+
     if CEToolkit.second >= 60:
         CEToolkit.second=59
+
     if CEToolkit.minute >= 60:
         CEToolkit.second=59
+
     if CEToolkit.second >= 100:
         CEToolkit.second=99
  
@@ -70,10 +53,12 @@ def calculate_time_down():
         CEToolkit.secondLCD = "0" + str(CEToolkit.second)
     else:
         CEToolkit.secondLCD = CEToolkit.second
+
     if CEToolkit.minute<10:
         CEToolkit.minuteLCD = "0" + str(CEToolkit.minute)
     else:
         CEToolkit.minuteLCD = CEToolkit.minute
+
     if CEToolkit.hour<10:
         CEToolkit.hourLCD = "0" + str(CEToolkit.hour)
     else:
@@ -86,11 +71,36 @@ def calculate_time_down():
         CEToolkit.minute-=1
         CEToolkit.second = 60
         CEToolkit.secondLCD="00"
+
     if CEToolkit.minute == (-1) and CEToolkit.second == 60:
-        CEToolkit.hour-=1
+        if CEToolkit.hour == 0:
+            parent.ui.timer.stop()
+        CEToolkit.hour -= 1
         CEToolkit.minute = 59
-        CEToolkit.minuteLCD="59"
+        CEToolkit.minuteLCD = "59"
+
     CEToolkit.second-=1
+
+def stop_time():
+    """add the values of the current clock to the line edit text"""
+
+    parent.ui.lineEdit_stopwatch_seconds.setText(str(CEToolkit.secondLCD))
+    parent.ui.lineEdit_stopwatch_minutes.setText(str(CEToolkit.minuteLCD))
+    parent.ui.lineEdit_stopwatch_hour.setText(str(CEToolkit.hourLCD))
+
+def reset_time():
+    """Reset timer variables, makes lcd display 00:00:00"""
+
+    CEToolkit.second=0
+    CEToolkit.minute=0
+    CEToolkit.hour=0
+    parent.ui.lcdNumber_stopwatch.display("00:00:00")
+
+def set_countdown_values(hour,minute,second):
+    """set the values requested by the user in the lcd display"""
+    CEToolkit.second=second
+    CEToolkit.minute=minute
+    CEToolkit.hour=hour
 
 def comboBox_stopwatch_targets_change():
     """assing the correct values to the line edit text depending of the comboBox index"""
@@ -101,11 +111,17 @@ def comboBox_stopwatch_targets_change():
         parent.ui.lineEdit_stopwatch_minutes.setText("30")
         set_countdown_values(1,30,0)
 
+    if parent.ui.comboBox_stopwatch_targets.currentIndex() == 2:
+        parent.ui.lcdNumber_stopwatch.display("02:00:00")
+        parent.ui.lineEdit_stopwatch_hour.setText("02")
+        parent.ui.lineEdit_stopwatch_minutes.setText("00")
+        set_countdown_values(2,00,0)
+
     if parent.ui.comboBox_stopwatch_targets.currentIndex() == 3:
-        parent.ui.lcdNumber_stopwatch.display("00:12:00")
+        parent.ui.lcdNumber_stopwatch.display("00:13:00")
         parent.ui.lineEdit_stopwatch_hour.setText("00")
-        parent.ui.lineEdit_stopwatch_minutes.setText("12")
-        set_countdown_values(0,12,0)
+        parent.ui.lineEdit_stopwatch_minutes.setText("13")
+        set_countdown_values(0,13,0)
     
     if parent.ui.comboBox_stopwatch_targets.currentIndex() == 4:
         parent.ui.lcdNumber_stopwatch.display("00:30:00")
@@ -162,4 +178,12 @@ def error_message(message):
         msg.setText("Error")
         msg.setInformativeText(message)
         msg.setWindowTitle("Error")
+        msg.exec_()
+
+def success_message(message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setText("Success")
+        msg.setInformativeText(message)
+        msg.setWindowTitle("Send")
         msg.exec_()

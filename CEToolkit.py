@@ -60,9 +60,6 @@ class Ui_MainWidget(object):
         font.setBold(False)
         font.setWeight(50)
         MainWidget.setFont(font)
-        #icon = QtGui.QIcon()
-        #icon.addPixmap(QtGui.QPixmap("./media/img/materialise_logo_zki_icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        #MainWidget.setWindowIcon(icon)
         MainWidget.setTabShape(QtWidgets.QTabWidget.Triangular)
         MainWidget.setFixedSize(1074, 710)
         
@@ -213,7 +210,7 @@ class Ui_MainWidget(object):
         self.pushButton_stopwatch_calculate.setFont(font)
         self.pushButton_stopwatch_calculate.setObjectName("pushButton_stopwatch_calculate")
         MainWidget.addTab(self.tab_stopwatch, "")
-        #Tab SEGMENTATION
+        #Tab SEGMENTATION#
         self.tab_segmentation = QtWidgets.QWidget()
         self.tab_segmentation.setObjectName("tab_segmentation")
         self.comboBox_segmentation_surgery = QtWidgets.QComboBox(self.tab_segmentation)
@@ -276,16 +273,8 @@ class Ui_MainWidget(object):
         #Tab DESIGN
         self.tab_design = QtWidgets.QWidget()
         self.tab_design.setObjectName("tab_design")
-        self.comboBox_design_surgery = QtWidgets.QComboBox(self.tab_design)
-        self.comboBox_design_surgery.setGeometry(QtCore.QRect(90, 50, 211, 41))
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.comboBox_design_surgery.setFont(font)
-        self.comboBox_design_surgery.setObjectName("comboBox_design_surgery")
-        self.comboBox_design_surgery.addItem("")
-        self.comboBox_design_surgery.addItem("")
-        self.comboBox_design_surgery.addItem("")
-        self.comboBox_design_surgery.addItem("")
         self.textEdit_design_image = QtWidgets.QTextEdit(self.tab_design)
         self.textEdit_design_image.setGeometry(QtCore.QRect(450, 50, 550, 550))
         self.textEdit_design_image.setObjectName("textEdit_design_image")
@@ -335,7 +324,7 @@ class Ui_MainWidget(object):
         self.label_design_image.setScaledContents(True)
         self.label_design_image.setObjectName("label_design_image")
         MainWidget.addTab(self.tab_design, "")
-        #TAB report
+        #TAB report#
         self.tab_report = QtWidgets.QWidget()
         self.tab_report.setObjectName("tab_report")
         self.textEdit_report_image = QtWidgets.QTextEdit(self.tab_report)
@@ -536,10 +525,6 @@ class Ui_MainWidget(object):
         self.pushButton_segmentation_preplanfolders.setText(_translate("MainWidget", "Preplaning Folders"))
         self.pushButton_segmentation_preplancuts.setText(_translate("MainWidget", "Preplanning cuts"))
         MainWidget.setTabText(MainWidget.indexOf(self.tab_segmentation), _translate("MainWidget", "Segmentation"))
-        self.comboBox_design_surgery.setItemText(0, _translate("MainWidget", "Orthognatic"))
-        self.comboBox_design_surgery.setItemText(1, _translate("MainWidget", "Reconstruction"))
-        self.comboBox_design_surgery.setItemText(2, _translate("MainWidget", "PSI"))
-        self.comboBox_design_surgery.setItemText(3, _translate("MainWidget", "CVR"))
         self.pushButton_design_next.setText(_translate("MainWidget", "Next"))
         self.pushButton_design_back.setText(_translate("MainWidget", "Back"))
         self.pushButton_design_rnames.setText(_translate("MainWidget", "Regular Names"))
@@ -549,7 +534,7 @@ class Ui_MainWidget(object):
         self.pushButton_design_folder.setText(_translate("MainWidget", "Folder"))
         self.pushButton_design_ceph.setText(_translate("MainWidget", "Cephalometry"))
         self.pushButton_design_flags.setText(_translate("MainWidget", "Post-Processing flags"))
-        MainWidget.setTabText(MainWidget.indexOf(self.tab_design), _translate("MainWidget", "Desing"))
+        MainWidget.setTabText(MainWidget.indexOf(self.tab_design), _translate("MainWidget", "Design"))
         self.pushButton_report_next.setText(_translate("MainWidget", "Next"))
         self.pushButton_report_back.setText(_translate("MainWidget", "Back"))
         self.pushButton_report_comments.setText(_translate("MainWidget", "Standard Comments"))
@@ -564,7 +549,7 @@ class Ui_MainWidget(object):
         self.comboBox_kpi_surgery.setItemText(2, _translate("MainWidget", "Seg PSI"))
         self.comboBox_kpi_surgery.setItemText(3, _translate("MainWidget", "Seg Other"))
         self.comboBox_kpi_surgery.setItemText(4, _translate("MainWidget", "Des Orthognatic"))
-        self.comboBox_kpi_surgery.setItemText(5, _translate("MainWidget", "Des reconstruction"))
+        self.comboBox_kpi_surgery.setItemText(5, _translate("MainWidget", "Des Reconstruction"))
         self.comboBox_kpi_surgery.setItemText(6, _translate("MainWidget", "Des PSI"))
         self.comboBox_kpi_surgery.setItemText(7, _translate("MainWidget", "Des Other"))
         self.comboBox_kpi_rev.setItemText(0, _translate("MainWidget", "YES"))
@@ -666,10 +651,12 @@ class Ui_MainWidget(object):
             pass
 
     def stop_stopwatch_reset(self):  
-        """reser the stopwatch 00:00:00"""
+        """reset the stopwatch 00:00:00"""
+
         try:
             self.timer.stop()
             stopwatchfunc.reset_time()
+            
         except(AttributeError):
             pass
 
@@ -702,6 +689,7 @@ class Ui_MainWidget(object):
         self.timer.start(1000)
 
 if __name__ == "__main__":
+    
     app = QtWidgets.QApplication(sys.argv)
     app_icon = QIcon("./media/img/materialise_logo_zki_icon.ico")
     app.setWindowIcon(app_icon)

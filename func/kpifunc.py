@@ -26,18 +26,18 @@ def register_button():
 
     comments = parent.ui.textEdit_kpi_comments.toPlainText()
 
-    if case_id is not '':
+    if case_id is not '' or time is not '':
         try:
             time = int(time)
 
             query.extend((case_id,surgery,is_rev,is_qc,time,comments))
     
-            enviar_datos_excel(query)
+            send_data_excel(query)
 
         except ValueError:
-            stopwatchfunc.error_message("Please input a number")
+            stopwatchfunc.error_message("Please input a number in the time field.")
     else:
-        stopwatchfunc.error_message("Case ID is empty")
+        stopwatchfunc.error_message("Complete all the information (CaseID and time).")
 
 def openkpi_button():
     """ get data of the file that user want to see"""
@@ -107,7 +107,7 @@ def search_button():
             break
     pass
 
-def enviar_datos_excel(query):
+def send_data_excel(query):
     """Send data to excel"""
 
     try:
@@ -117,6 +117,19 @@ def enviar_datos_excel(query):
         search_template(date)
         worksheet = define_sheet(query)
         write_info(query=query,date=date,worksheet=worksheet)
+
+        stopwatchfunc.success_message("Your case was sended")
+
+        parent.ui.lineEdit_kpi_caseid.setText("")
+        
+        parent.ui.comboBox_kpi_surgery.setCurrentIndex(0)
+        parent.ui.comboBox_kpi_rev.setCurrentIndex(0)
+        parent.ui.comboBox_kpi_qc.setCurrentIndex(0)
+
+        parent.ui.lineEdit_kpi_time.setText("")
+        parent.ui.textEdit_kpi_comments.setText("")
+
+
     except PermissionError:
         stopwatchfunc.error_message("Please close the Excel file to save the info")
     
@@ -130,7 +143,6 @@ def search_template(date):
     
     for i in files:
         if i == template_to_use:
-            print('El archivo existe')
             break
         else:
             origin = dirs + "KPITemplate.xlsx"
@@ -146,23 +158,25 @@ def search_template(date):
             title = "{} {}".format(month,date[0])
             source["B1"] = title
             wb.save(dirs+template_to_use)
-
-            print ("El archivo no existía pero fue creado")
             break
 
 def define_sheet(query):
     """define in what sheet is going to write the info"""
 
     asa = query[1].split(" ")
-    if asa[0] == "Seg" and query[3] == "YES":
+
+    if asa[0] == "Seg" and query[3] == "NO":
         return 1
 
-    if asa[0] == "Des" and query[3] == "YES":
+    if asa[0] == "Seg" and query[3] == "YES":
         return 2
-    
+
     if asa[0] == "Des" and query[3] == "NO":
         return 3
 
+    if asa[0] == "Des" and query[3] == "YES":
+        return 4
+    
 def write_info(query,date,worksheet):
     """write the info in excel"""
 
@@ -172,7 +186,7 @@ def write_info(query,date,worksheet):
     surgery = query[1].split(" ")
     query[1] = surgery[1]
 
-    if worksheet == 1:
+    if worksheet ==1:
         source = wb.worksheets[worksheet]
         for idx,cell in enumerate(source['A']):
             if cell.value == None:
@@ -185,7 +199,7 @@ def write_info(query,date,worksheet):
                 source["E"+str(idx+1)] = date[1]
                 source["F"+str(idx+1)] = date[0]
                 source["G"+str(idx+1)] = query[4]
-                source["H"+str(idx+1)] = query[5]
+                source["I"+str(idx+1)] = query[5]
                 
 
                 wb.save(path)
@@ -225,8 +239,22 @@ def write_info(query,date,worksheet):
                 source["I"+str(idx+1)] = query[5]
 
                 wb.save(path)
-                print("guardado 3")
                 break
 
-    else:
-        stopwatchfunc.error_message("There is not template for that info, contact admin")
+    elif worksheet == 4:
+        source = wb.worksheets[worksheet]
+        for idx,cell in enumerate(source['A']):
+            if cell.value == None:
+                
+                cell.value = query[0]
+                
+                source["B"+str(idx+1)] = query[1]
+                source["C"+str(idx+1)] = query[2]
+                source["D"+str(idx+1)] = date[2]
+                source["E"+str(idx+1)] = date[1]
+                source["F"+str(idx+1)] = date[0]
+                source["G"+str(idx+1)] = query[4]
+                source["H"+str(idx+1)] = query[5]
+
+                wb.save(path)
+                break
