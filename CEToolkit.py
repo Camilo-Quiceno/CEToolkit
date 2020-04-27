@@ -1,4 +1,4 @@
-"""Main UI project"""
+"""Main UI project & Timmer."""
 
 #PyQT5
 
@@ -47,6 +47,7 @@ contador_report = 0
 class Ui_MainWidget(object):
     def setupUi(self, MainWidget):
         """location and definitions elements in the UI"""
+
         #Main widget
         MainWidget.setObjectName("MainWidget")
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
@@ -146,12 +147,8 @@ class Ui_MainWidget(object):
         self.line.setFrameShape(QtWidgets.QFrame.VLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
-        self.pushButton_stopwatch_stop_down = QtWidgets.QPushButton(self.tab_stopwatch)
-        self.pushButton_stopwatch_stop_down.setGeometry(QtCore.QRect(170, 470, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.pushButton_stopwatch_stop_down.setFont(font)
-        self.pushButton_stopwatch_stop_down.setObjectName("pushButton_stopwatch_stop_down")
         self.comboBox_stopwatch_targets = QtWidgets.QComboBox(self.tab_stopwatch)
         self.comboBox_stopwatch_targets.setGeometry(QtCore.QRect(100, 140, 261, 31))
         self.comboBox_stopwatch_targets.setObjectName("comboBox_stopwatch_targets")
@@ -210,6 +207,7 @@ class Ui_MainWidget(object):
         self.pushButton_stopwatch_calculate.setFont(font)
         self.pushButton_stopwatch_calculate.setObjectName("pushButton_stopwatch_calculate")
         MainWidget.addTab(self.tab_stopwatch, "")
+
         #Tab SEGMENTATION#
         self.tab_segmentation = QtWidgets.QWidget()
         self.tab_segmentation.setObjectName("tab_segmentation")
@@ -270,7 +268,8 @@ class Ui_MainWidget(object):
         self.pushButton_segmentation_preplancuts.setObjectName("pushButton_segmentation_preplancuts")
         self.verticalLayout_segmentation.addWidget(self.pushButton_segmentation_preplancuts)
         MainWidget.addTab(self.tab_segmentation, "")
-        #Tab DESIGN
+
+        #Tab Design#
         self.tab_design = QtWidgets.QWidget()
         self.tab_design.setObjectName("tab_design")
         font = QtGui.QFont()
@@ -324,7 +323,8 @@ class Ui_MainWidget(object):
         self.label_design_image.setScaledContents(True)
         self.label_design_image.setObjectName("label_design_image")
         MainWidget.addTab(self.tab_design, "")
-        #TAB report#
+
+        #TAB Report#
         self.tab_report = QtWidgets.QWidget()
         self.tab_report.setObjectName("tab_report")
         self.textEdit_report_image = QtWidgets.QTextEdit(self.tab_report)
@@ -367,7 +367,8 @@ class Ui_MainWidget(object):
         self.label_report_image.setScaledContents(True)
         self.label_report_image.setObjectName("label_report_image")
         MainWidget.addTab(self.tab_report, "")
-        #TAB KPI
+
+        #TAB KPI#
         self.tab_kpi = QtWidgets.QWidget()
         self.tab_kpi.setObjectName("tab_kpi")
         self.lineEdit_kpi_caseid = QtWidgets.QLineEdit(self.tab_kpi)
@@ -480,6 +481,8 @@ class Ui_MainWidget(object):
         QtCore.QMetaObject.connectSlotsByName(MainWidget)
 
     def retranslateUi(self, MainWidget):
+        """Manage the text of each item inside the UI"""
+
         _translate = QtCore.QCoreApplication.translate
         MainWidget.setWindowTitle(_translate("MainWidget", "CEToolkit"))
         self.label_stopwatch_title_stopwatch.setText(_translate("MainWidget", "StopWatch"))
@@ -492,7 +495,6 @@ class Ui_MainWidget(object):
         self.pushButton_stopwatch_stop_up.setText(_translate("MainWidget", "StopUp"))
         self.pushButton_stopwatch_start_up.setText(_translate("MainWidget", "StartUp"))
         self.pushButton_stopwatch_start_down.setText(_translate("MainWidget", "StartDown"))
-        self.pushButton_stopwatch_stop_down.setText(_translate("MainWidget", "StopDown"))
         self.comboBox_stopwatch_targets.setItemText(0, _translate("MainWidget", "Targets"))
         self.comboBox_stopwatch_targets.setItemText(1, _translate("MainWidget", "Segmentation CT"))
         self.comboBox_stopwatch_targets.setItemText(2, _translate("MainWidget", "Segmentation CBCT"))
@@ -581,9 +583,9 @@ class Ui_MainWidget(object):
         self.label_kpi_comments.setText(_translate("MainWidget", "Comments:"))
         MainWidget.setTabText(MainWidget.indexOf(self.tab_kpi), _translate("MainWidget", "KPI"))
 
-#Connections
+#Connections#
 
-#STOPWATCH 
+#STOPWATCH#
 
         self.pushButton_stopwatch_start_up.clicked.connect(self.start_stopwatch_up)
         self.pushButton_stopwatch_stop_up.clicked.connect(self.stop_stopwatch_up)
@@ -594,7 +596,7 @@ class Ui_MainWidget(object):
 
         self.pushButton_stopwatch_calculate.clicked.connect(stopwatchfunc.calculate_diff)
 
-#SEGMENTATION
+#Segmentation#
 
         self.pushButton_segmentation_names.clicked.connect(segmentationfunc.names_button)
         self.pushButton_segmentation_framework.clicked.connect(segmentationfunc.framework_button)
@@ -607,7 +609,7 @@ class Ui_MainWidget(object):
 
         self.comboBox_segmentation_surgery.currentIndexChanged.connect(segmentationfunc.combobox_change)
 
-#Design
+#Design#
 
         self.pushButton_design_rnames.clicked.connect(designfunc.rnames_button)
         self.pushButton_design_pnames.clicked.connect(designfunc.pnames_button)
@@ -620,7 +622,7 @@ class Ui_MainWidget(object):
         self.pushButton_design_next.clicked.connect(designfunc.next)
         self.pushButton_design_back.clicked.connect(designfunc.back)
 
-#Report
+#Report#
 
         self.pushButton_report_comments.clicked.connect(reportfunc.comments_button)
         self.pushButton_report_parameters.clicked.connect(reportfunc.parameters_button)
@@ -635,15 +637,17 @@ class Ui_MainWidget(object):
         self.pushButton_kpi_register.clicked.connect(kpifunc.register_button)
         self.pushButton_kpi_open.clicked.connect(kpifunc.openkpi_button)
 
-#functions
+#Timer Funcitions#
 #STOPWATCH
 
     def start_stopwatch_up(self):
         """Initialize the timer by 1 seg per second"""
+
         self.func_timer(self.clock_up)
         
     def stop_stopwatch_up(self):
         """Stop the timer"""
+
         try:
             self.timer.stop()
             stopwatchfunc.stop_time()
@@ -662,8 +666,9 @@ class Ui_MainWidget(object):
 
     def start_stopwatch_down(self):
         """take the line edit values an initialize the timer"""
+
         try:
-            second= int(self.lineEdit_stopwatch_seconds.text())
+            second = int(self.lineEdit_stopwatch_seconds.text())
             minute = int(self.lineEdit_stopwatch_minutes.text())
             hour = int(self.lineEdit_stopwatch_hour.text())
             if second == 0 and minute == 0 and hour == 0:
@@ -675,15 +680,18 @@ class Ui_MainWidget(object):
             stopwatchfunc.error_message("Please input numbers")
 
     def clock_up(self):
-        """Call the logic of sum clock in the functions file"""     
+        """Call the logic of sum clock in the functions file"""    
+
         stopwatchfunc.calculate_time_up()
 
     def downclock(self):
-        """Call the logic of substraction clock in the functions file"""    
+        """Call the logic of substraction clock in the functions file"""
+
         stopwatchfunc.calculate_time_down()
 
     def func_timer(self,timer):
         """Initialize any timer calling the correct logic"""
+        
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(timer)
         self.timer.start(1000)

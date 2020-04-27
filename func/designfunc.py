@@ -1,4 +1,4 @@
-"""Functions for the design tab"""
+"""Functions for the design tab."""
 
 #PYQT
 from PyQt5 import QtCore,QtGui
@@ -10,16 +10,16 @@ import CEToolkit
 import os
 
 def text_reader(file_path,text_edit):
-    """read the indacated .txt"""
+    """Read the indicated .txt."""
 
     parent.ui.textEdit_design_image.clear()
-    path=os.getcwd()+'\media\docs' + file_path
+    path = os.getcwd()+'\media\docs' + file_path
     f = open(path,'r');
     for x in f:
         text_edit.insertPlainText(x)
 
 def initial_image(path_images):
-        """show the first image in the folder"""
+        """Show the first image in the folder."""
 
         path = os.getcwd()+path_images
         dirs = os.listdir(path)
@@ -27,14 +27,14 @@ def initial_image(path_images):
         parent.ui.label_design_image.setPixmap(QtGui.QPixmap(path))
 
 def rnames_button():
-    """Show design regular names"""
+    """Show design regular names."""
 
     parent.ui.label_design_image.setGeometry(QtCore.QRect(0, 0, 0, 0))
     CEToolkit.band_wraps_button = 0
     text_reader('\design/regular_names.txt',parent.ui.textEdit_design_image)
 
 def pnames_button():
-    """Show design production names"""
+    """Show design production names."""
     
     parent.ui.label_design_image.setGeometry(QtCore.QRect(0, 0, 0, 0))
     parent.ui.label_design_image.setPixmap(QtGui.QPixmap(""))
@@ -86,7 +86,7 @@ def flags_button():
     initial_image(path_images)
 
 def next():
-    """logic when user press  button"""
+    """Logic when user press Next button."""
 
     def next_image(path_file):
         path = os.getcwd()+path_file
@@ -102,10 +102,11 @@ def next():
         next_image(path_file)
 
 def back():
-    """logic when user press back button"""
+    """Logic when user press back button."""
 
     def back_image(path_file):
-        """logic to shor thw back image"""
+        """Logic to show thw back image."""
+
         path = os.getcwd()+path_file
         dirs = os.listdir(path)
         CEToolkit.contador_wraps -= 1

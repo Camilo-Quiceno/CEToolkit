@@ -1,4 +1,4 @@
-"""Functions for the stopwatch"""
+"""Functions for the stopwatch tab."""
 
 #PYQT
 from PyQt5 import QtCore
@@ -9,17 +9,17 @@ from PyQt5.QtWidgets import QMessageBox
 import CEToolkit
 
 def calculate_time_up():
-    """Do the logic of the clock up"""
-    print(CEToolkit.second)
-    CEToolkit.second+=1
+    """Do the logic of the clock up."""
+
+    CEToolkit.second += 1
     if CEToolkit.second == 60:
         CEToolkit.minute+=1
         CEToolkit.second = 0
-        CEToolkit.secondLCD="00"
+        CEToolkit.secondLCD ="00"
     if CEToolkit.minute == 60:
         CEToolkit.hour+=1
         CEToolkit.minute = 0
-        CEToolkit.minuteLCD="00"
+        CEToolkit.minuteLCD = "00"
     if CEToolkit.hour == 60:
         pass
     if CEToolkit.second<10:
@@ -38,16 +38,16 @@ def calculate_time_up():
     parent.ui.lcdNumber_stopwatch.display(CEToolkit.text)
 
 def calculate_time_down():
-    """Do the logic of the clock dowmn"""
+    """Do the logic of the clock dowmn."""
 
     if CEToolkit.second >= 60:
-        CEToolkit.second=59
+        CEToolkit.second = 59
 
     if CEToolkit.minute >= 60:
-        CEToolkit.second=59
+        CEToolkit.second = 59
 
     if CEToolkit.second >= 100:
-        CEToolkit.second=99
+        CEToolkit.second = 99
  
     if CEToolkit.second<10:
         CEToolkit.secondLCD = "0" + str(CEToolkit.second)
@@ -79,31 +79,32 @@ def calculate_time_down():
         CEToolkit.minute = 59
         CEToolkit.minuteLCD = "59"
 
-    CEToolkit.second-=1
+    CEToolkit.second -= 1
 
 def stop_time():
-    """add the values of the current clock to the line edit text"""
+    """Add the values of the current clock to the line edit text."""
 
     parent.ui.lineEdit_stopwatch_seconds.setText(str(CEToolkit.secondLCD))
     parent.ui.lineEdit_stopwatch_minutes.setText(str(CEToolkit.minuteLCD))
     parent.ui.lineEdit_stopwatch_hour.setText(str(CEToolkit.hourLCD))
 
 def reset_time():
-    """Reset timer variables, makes lcd display 00:00:00"""
+    """Reset timer variables, makes lcd display 00:00:00."""
 
-    CEToolkit.second=0
-    CEToolkit.minute=0
-    CEToolkit.hour=0
+    CEToolkit.second = 0
+    CEToolkit.minute = 0
+    CEToolkit.hour = 0
     parent.ui.lcdNumber_stopwatch.display("00:00:00")
 
 def set_countdown_values(hour,minute,second):
-    """set the values requested by the user in the lcd display"""
-    CEToolkit.second=second
-    CEToolkit.minute=minute
-    CEToolkit.hour=hour
+    """Set the values requested by the user in the lcd display."""
+
+    CEToolkit.second = second
+    CEToolkit.minute = minute
+    CEToolkit.hour = hour
 
 def comboBox_stopwatch_targets_change():
-    """assing the correct values to the line edit text depending of the comboBox index"""
+    """Assing the correct values to the line edit text depending of the comboBox index."""
 
     if parent.ui.comboBox_stopwatch_targets.currentIndex() == 1:
         parent.ui.lcdNumber_stopwatch.display("01:30:00")
@@ -142,7 +143,7 @@ def comboBox_stopwatch_targets_change():
         set_countdown_values(4,0,0)
 
 def calculate_diff(ValueError):
-    """Calculate the dif time"""
+    """Calculate the dif time."""
 
     try:
         adjust_time = int(parent.ui.lineEdit_stopwatch_adjustment.text())
@@ -171,19 +172,23 @@ def calculate_diff(ValueError):
 
     except:
         error_message("Please input a number")
-    
+
 def error_message(message):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Critical)
-        msg.setText("Error")
-        msg.setInformativeText(message)
-        msg.setWindowTitle("Error")
-        msg.exec_()
+    """Create the error box of a message."""
+
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Critical)
+    msg.setText("Error")
+    msg.setInformativeText(message)
+    msg.setWindowTitle("Error")
+    msg.exec_()
 
 def success_message(message):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information)
-        msg.setText("Success")
-        msg.setInformativeText(message)
-        msg.setWindowTitle("Send")
-        msg.exec_()
+    """Create the success box of a message."""
+
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Information)
+    msg.setText("Success")
+    msg.setInformativeText(message)
+    msg.setWindowTitle("Send")
+    msg.exec_()

@@ -1,4 +1,4 @@
-"""Functions for the kpi tab"""
+"""Functions for the kpi tab."""
 
 #PYQT
 from PyQt5 import QtCore,QtGui
@@ -14,7 +14,7 @@ import os
 import shutil
 
 def register_button():
-    """Take all the data of the KPI_register and write thm in excel"""
+    """Take all the data of the KPI_register and write them in excel."""
 
     query = []
     case_id = parent.ui.lineEdit_kpi_caseid.text()
@@ -40,7 +40,7 @@ def register_button():
         stopwatchfunc.error_message("Complete all the information (CaseID and time).")
 
 def openkpi_button():
-    """ get data of the file that user want to see"""
+    """Get data of the file that user want to see."""
 
     month = parent.ui.comboBox_kpi_month.currentText()
     year = parent.ui.comboBox_kpi_year.currentText()
@@ -59,56 +59,11 @@ def openkpi_button():
 
             break
         else:
-            stopwatchfunc.error_message("There is not template for that date, contact admin")
+            stopwatchfunc.error_message("There is no template for that date, contact admin.")
             break
             
-def search_button():
-    """Search de measure that th user whamt in the excel"""
-
-    month = parent.ui.comboBox_kpi_month.currentText()
-    year = parent.ui.comboBox_kpi_year.currentText()
-    step = parent.ui.comboBox_kpi_search.currentText()
-
-    template_to_use ="KPI" + month + year + ".xlsx"
-
-    dirs = os.getcwd()+'/media/docs/kpi/'
-    files = os.listdir(dirs)
-
-    for i in files:
-
-        if i == template_to_use:
-
-            path = dirs + template_to_use
-            wb = openpyxl.load_workbook(path, data_only=True)#Abre el archivo de excel
-            
-            if step == "Segmentation QC Time":
-                ws = wb.worksheets[1] #Abre la primera hoja del archivo 
-                print(ws['L8'].internal_value) #Lee la celda indicada
-                print('Consultado')
-        
-            elif step == "Technical QC Time":
-                ws = wb.worksheets[2] #Abre la primera hoja del archivo 
-                print(ws['L6'].value) #Lee la celda indicada
-                print('Consultado')
-                
-            elif step == "Design Time":
-                ws = wb.worksheets[3] #Abre la primera hoja del archivo 
-                print(ws['N27'].value) #Lee la celda indicada
-                print('Consultado')
-            
-            elif step == "Approval Rate Design":
-                ws = wb.worksheets[3] #Abre la primera hoja del archivo 
-                print(ws['N15'].value) #Lee la celda indicada
-                print('Consultado')
-            break
-
-        else:
-            stopwatchfunc.error_message("There is not template for that date, contact admin")
-            break
-    pass
-
 def send_data_excel(query):
-    """Send data to excel"""
+    """Send data to excel."""
 
     try:
         date = str(datetime.date.today())
@@ -131,10 +86,10 @@ def send_data_excel(query):
 
 
     except PermissionError:
-        stopwatchfunc.error_message("Please close the Excel file to save the info")
+        stopwatchfunc.error_message("Please close the Excel file to save the info.")
     
 def search_template(date):
-    """look the file o create it"""
+    """Look the file or create it."""
 
     dirs = os.getcwd()+'/media/docs/kpi/'
     files = os.listdir(dirs)
@@ -161,7 +116,7 @@ def search_template(date):
             break
 
 def define_sheet(query):
-    """define in what sheet is going to write the info"""
+    """Define in what sheet is going to write the info."""
 
     asa = query[1].split(" ")
 
@@ -178,7 +133,7 @@ def define_sheet(query):
         return 4
     
 def write_info(query,date,worksheet):
-    """write the info in excel"""
+    """Write the info in excel."""
 
     path = os.getcwd()+'/media/docs/kpi/' + "KPI" + date[1] + date[0] + ".xlsx"
     wb = openpyxl.load_workbook(path)
@@ -201,7 +156,6 @@ def write_info(query,date,worksheet):
                 source["G"+str(idx+1)] = query[4]
                 source["I"+str(idx+1)] = query[5]
                 
-
                 wb.save(path)
                 break
 
@@ -219,7 +173,7 @@ def write_info(query,date,worksheet):
                 source["F"+str(idx+1)] = date[0]
                 source["G"+str(idx+1)] = query[4]
                 source["H"+str(idx+1)] = query[5]
-
+                
                 wb.save(path)
                 break
     

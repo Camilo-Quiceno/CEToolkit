@@ -10,7 +10,7 @@ import CEToolkit
 import os
 
 def text_reader(file_path,text_edit):
-    """read the indacated .txt"""
+    """Read the indacated .txt."""
 
     path=os.getcwd()+'\media\docs' + file_path
     f = open(path,'r');
@@ -18,19 +18,21 @@ def text_reader(file_path,text_edit):
         text_edit.insertPlainText(x)
 
 def initial_image(path_images):
-    """show the first image in the folder"""
+    """Show the first image in the folder."""
+
     path = os.getcwd()+path_images
     dirs = os.listdir(path)
     path = os.getcwd()+path_images+dirs[0]
     parent.ui.label_segmentation_image.setPixmap(QtGui.QPixmap(path))
 
 def combobox_change():
-    """reset the tab to names."""
+    """Reset the tab to names."""
+
     names_button()
     CEToolkit.contador_framework_orthognatic = 0
 
 def names_button():
-    """show the correct names, depend on the combo box."""
+    """Show the correct names, depend on the combo box."""
 
     parent.ui.label_segmentation_image.setGeometry(QtCore.QRect(0, 0, 0, 0))
     CEToolkit.contador_framework_orthognatic = 0
@@ -40,7 +42,7 @@ def names_button():
     text_reader('\segmentation\stlnames.txt', parent.ui.textEdit_segmentation_image)
         
 def framework_button():
-    """show the correct framework images, depends on the combobox"""
+    """Show the correct framework images, depends on the combobox."""
 
     parent.ui.label_segmentation_image.setGeometry(QtCore.QRect(450, 50, 550, 550))
     CEToolkit.band_framework_button = 1
@@ -79,7 +81,7 @@ def framework_button():
         initial_image(path_images)
 
 def objects_button():
-    """show object list."""
+    """Show object list."""
 
     parent.ui.label_segmentation_image.setGeometry(QtCore.QRect(0, 0, 0, 0))
     CEToolkit.contador_framework_orthognatic = 0
@@ -89,7 +91,7 @@ def objects_button():
     text_reader('\segmentation\objects_list.txt', parent.ui.textEdit_segmentation_image)
 
 def preplanning_folder_button():
-    """show preplanning folders."""
+    """Show preplanning folders."""
 
     parent.ui.label_segmentation_image.setGeometry(QtCore.QRect(0, 0, 0, 0))
     CEToolkit.contador_framework_orthognatic = 0
@@ -102,7 +104,7 @@ def preplanning_folder_button():
         text_reader('\segmentation\preplanning_folders.txt', parent.ui.textEdit_segmentation_image)
 
 def preplanning_cuts_button():
-    """show the correct framework images, depends on the combobox"""
+    """Show the correct framework images, depending on the combobox."""
 
     parent.ui.label_segmentation_image.setGeometry(QtCore.QRect(0, 0, 0, 0))
     CEToolkit.contador_framework_orthognatic = 0
@@ -117,7 +119,7 @@ def preplanning_cuts_button():
         initial_image(path_images)
     
 def next():
-    """logic when user press  button"""
+    """Logic when user press button Next."""
 
     def next_image(path_file):
         path = os.getcwd()+path_file
@@ -162,15 +164,18 @@ def next():
             next_image(path_file)
 
 def back():
-    """logic when user press back button"""
+    """Logic when user press back button."""
 
     def back_image(path_file):
-        """logic to shor thw back image"""
+        """Logic to shor thw back image."""
+
         path = os.getcwd()+path_file
         dirs = os.listdir(path)
         CEToolkit.contador_framework_orthognatic -= 1
+
         if CEToolkit.contador_framework_orthognatic < 0:
             CEToolkit.contador_framework_orthognatic = len(dirs) - 1
+            
         path_image = path + dirs[CEToolkit.contador_framework_orthognatic]
         parent.ui.label_segmentation_image.setPixmap(QtGui.QPixmap(path_image))
 
