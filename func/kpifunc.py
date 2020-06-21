@@ -24,14 +24,16 @@ def register_button():
 
     time = parent.ui.lineEdit_kpi_time.text()
 
+    modality = parent.ui.comboBox_kpi_modality.currentText()
+
     comments = parent.ui.textEdit_kpi_comments.toPlainText()
 
     if case_id is not '' or time is not '':
         try:
             time = int(time)
 
-            query.extend((case_id,surgery,is_rev,is_qc,time,comments))
-    
+            query.extend((case_id,surgery,is_rev,is_qc,time,comments,modality))
+
             send_data_excel(query)
 
         except ValueError:
@@ -42,6 +44,7 @@ def register_button():
 def openkpi_button():
     """Get data of the file that user want to see."""
 
+    band_finded = False
     month = parent.ui.comboBox_kpi_month.currentText()
     year = parent.ui.comboBox_kpi_year.currentText()
 
@@ -56,11 +59,12 @@ def openkpi_button():
             path = dirs + template_to_use
             os_url = "start "+path 
             os.system(os_url)
-
+            band_finded = True
             break
-        else:
-            stopwatchfunc.error_message("There is no template for that date, contact admin.")
-            break
+        
+    if band_finded == False:
+        stopwatchfunc.error_message("There is no template for that date, contact admin.")
+            
             
 def send_data_excel(query):
     """Send data to excel."""
@@ -70,7 +74,9 @@ def send_data_excel(query):
         date = date.split("-")
         
         search_template(date)
+        
         worksheet = define_sheet(query)
+        
         write_info(query=query,date=date,worksheet=worksheet)
 
         stopwatchfunc.success_message("Your case was sended")
@@ -96,24 +102,27 @@ def search_template(date):
 
     template_to_use = "KPI" + date[1] + date[0] + ".xlsx"
     
+    band_finded = False
+    
     for i in files:
         if i == template_to_use:
+            band_finded = True
             break
-        else:
-            origin = dirs + "KPITemplate.xlsx"
-            destiny = dirs + template_to_use
+    
+    if band_finded == False:    
+        origin = dirs + "KPITemplate.xlsx"
+        destiny = dirs + template_to_use
 
-            shutil.copy(origin, destiny)
+        shutil.copy(origin, destiny)
 
-            mydate = datetime.datetime.now()
-            month = mydate.strftime("%B")
+        mydate = datetime.datetime.now()
+        month = mydate.strftime("%B")
 
-            wb = openpyxl.load_workbook(dirs+template_to_use)
-            source = wb.worksheets[0]
-            title = "{} {}".format(month,date[0])
-            source["B1"] = title
-            wb.save(dirs+template_to_use)
-            break
+        wb = openpyxl.load_workbook(dirs+template_to_use)
+        source = wb.worksheets[0]
+        title = "{} {}".format(month,date[0])
+        source["B1"] = title
+        wb.save(dirs+template_to_use)
 
 def define_sheet(query):
     """Define in what sheet is going to write the info."""
@@ -154,7 +163,8 @@ def write_info(query,date,worksheet):
                 source["E"+str(idx+1)] = date[1]
                 source["F"+str(idx+1)] = date[0]
                 source["G"+str(idx+1)] = query[4]
-                source["I"+str(idx+1)] = query[5]
+                source["J"+str(idx+1)] = query[5]
+                source["I"+str(idx+1)] = query[6]
                 
                 wb.save(path)
                 break

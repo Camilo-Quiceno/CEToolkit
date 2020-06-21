@@ -61,6 +61,15 @@ def colors_button():
     path_images = "/media/img/report/colors/"
     initial_image(path_images)
 
+def art_button():
+    """Show report colors."""
+
+    parent.ui.label_report_image.setGeometry(QtCore.QRect(0, 0, 0, 0))
+    CEToolkit.contador_report = 0
+    CEToolkit.band_teeth_button = 0
+    parent.ui.label_report_image.setPixmap(QtGui.QPixmap(""))
+    text_reader('/report/art.txt',parent.ui.textEdit_report_image)
+
 def next():
     """Logic when user press  button"""
 

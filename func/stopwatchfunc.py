@@ -4,6 +4,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtCore import QTime, QTimer
 from PyQt5.QtWidgets import QMessageBox
+import win32gui
 
 #CEToolkit
 import CEToolkit
@@ -74,7 +75,10 @@ def calculate_time_down():
 
     if CEToolkit.minute == (-1) and CEToolkit.second == 60:
         if CEToolkit.hour == 0:
+            parent.MainWidget.activateWindow()
+            error_message("TIME IS OVER, KEEP WORKING")
             parent.ui.timer.stop()
+
         CEToolkit.hour -= 1
         CEToolkit.minute = 59
         CEToolkit.minuteLCD = "59"
@@ -113,10 +117,10 @@ def comboBox_stopwatch_targets_change():
         set_countdown_values(1,30,0)
 
     if parent.ui.comboBox_stopwatch_targets.currentIndex() == 2:
-        parent.ui.lcdNumber_stopwatch.display("02:00:00")
+        parent.ui.lcdNumber_stopwatch.display("02:30:00")
         parent.ui.lineEdit_stopwatch_hour.setText("02")
-        parent.ui.lineEdit_stopwatch_minutes.setText("00")
-        set_countdown_values(2,00,0)
+        parent.ui.lineEdit_stopwatch_minutes.setText("30")
+        set_countdown_values(2,30,0)
 
     if parent.ui.comboBox_stopwatch_targets.currentIndex() == 3:
         parent.ui.lcdNumber_stopwatch.display("00:13:00")
@@ -177,6 +181,7 @@ def error_message(message):
     """Create the error box of a message."""
 
     msg = QMessageBox()
+    msg.resize(600,600)
     msg.setIcon(QMessageBox.Critical)
     msg.setText("Error")
     msg.setInformativeText(message)
