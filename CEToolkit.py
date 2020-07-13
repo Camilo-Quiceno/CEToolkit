@@ -33,7 +33,7 @@ second = 0
 minute = 0
 hour = 0
 
-#Segmentation Tab
+#Segmentation Tabs
 contador_framework_orthognatic = 0 
 band_framework_button = 0
 
